@@ -1,0 +1,2 @@
+print"vulcan"
+print"hello"
