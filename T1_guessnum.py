@@ -12,6 +12,10 @@ while bingo==False:
     #否则answer值被固定while陷入死循环
     answer=input()
 
+    if answer<0:
+        print"Exit game"
+        break
+
     if answer>num:
         print"%d is too big"%answer
     if answer<num:
@@ -19,4 +23,3 @@ while bingo==False:
     if answer==num:
         print"Bingo!%d is the answer"%answer
         bingo=True
-
