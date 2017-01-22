@@ -10,27 +10,32 @@ class Bullet:
         self.x = 0
         self.y = -1
         self.image = pygame.image.load('bullet.png').convert_alpha()
+        #set bullet's default status as inactive
+        #then they can sleep in box soundly to be arranged
+        self.active = False
     def move(self):
         #this loop is to set position for bullet drawing
-        #if bullet beyond window
+        #only active bullets fly
+        if self.active == True:
+            self.y -= 3
+        #if bullet beyond window give it a rest for next run
         if self.y < 0:
-            #set bullet's initial position in accordance with mouse(seem shooted from aircraft/mouse)
-            #get mouse's position and store them in variables mX, mY
-            mX, mY = pygame.mouse.get_pos()
-            #the two evaluation below will make bullet.y,x positive cuz your mouse(x,y)are very POSITIVE!
-            self.x = mX - self.image.get_width() / 2
-            self.y = mY - self.image.get_height() / 2
-        #if bullet within window
-        else:
-            time.sleep(0.0025)
-            #make bullet move up for 5 units each time
-            #until y<0 and get return to path1 to get initial position again
-            self.y -= 5
+            self.active = False
+
+    def restart(self):
+        #initialize bullet's position in accordance with mouse(seem shooted from aircraft/mouse)
+        #get mouse's position and store them in variables mX, mY
+        mX, mY = pygame.mouse.get_pos()
+        self.x = mX - self.image.get_width() / 2
+        self.y = mY - self.image.get_height() / 2
+        time.sleep(0.0025)
+        self.active = True
 
 class Enemy:
     def restart(self):
         self.x = random.randint(100,750)
         self.y = random.randint(-200,-50)
+        #can I directly use speed??
         self.speed = random.random() + 0.1
 
     def __init__(self):
@@ -54,8 +59,20 @@ pygame.display.set_caption("Stardust")
 background = pygame.image.load('back.jpg').convert()
 aircraft = pygame.image.load('ufo.png').convert_alpha()
 
-bullet = Bullet()
+#create bullets' box
+bullets = []
+#load 5 bullets
+for i in range(5):
+    #all bullets belong to class Bullet
+    bullets.append(Bullet())
+#sum of bullets
+count_b = len(bullets)
+#the to-be-active bullet next;default is NO.0
+index_b = 0
+#set interval between different bullet so they don't mix
+interval_b = 0
 
+#creat enemy camp
 enemy = Enemy()
 
 #the main loop of game
@@ -68,9 +85,21 @@ while True:
     #draw background on canvas
     screen.blit(background, (0,0))
 
-    bullet.move()
-    #draw bullet before aircraft then the bullet fly from under it
-    screen.blit(bullet.image, (bullet.x, bullet.y))
+    #like countdown:3,2,1,shoot!
+    interval_b -= 1
+    if interval_b < 0:
+        bullets[index_b].restart()
+        #reset for countdowm again
+        interval_b = 100
+        #choose the next bullet
+        #0%5=0, 3%5=3, 5%5=0, smart loop!
+        index_b = (index_b + 1) % count_b
+    #give bullet method according to its status
+    for b in bullets:
+        if b.active == True:
+            b.move()
+            #draw bullet before aircraft then the bullet fly from under it
+            screen.blit(b.image, (b.x, b.y))
 
     enemy.move()
     screen.blit(enemy.image, (enemy.x, enemy.y))
