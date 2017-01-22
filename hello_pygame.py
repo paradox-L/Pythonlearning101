@@ -50,6 +50,13 @@ class Enemy:
             #initialize position
             self.restart()
 
+def checkhit(bullet,enemy):
+    if (bullet.x > enemy.x and bullet.x < enemy.x + enemy.image.get_width()) and (bullet.y > enemy.y and bullet.y < enemy.y + enemy.image.get_height()):
+        enemy.restart()
+        bullet.active = False
+    else:
+        pass
+
 pygame.init()
 
 #open game window
@@ -99,6 +106,9 @@ while True:
     #give bullet method according to its status
     for b in bullets:
         if b.active == True:
+            #check each bullet whether it hit an enemy
+            for e in enemies:
+                checkhit(b,e)
             b.move()
             #draw bullet before aircraft then the bullet fly from under it
             screen.blit(b.image, (b.x, b.y))
