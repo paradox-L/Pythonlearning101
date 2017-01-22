@@ -3,7 +3,7 @@
 class Vehicle:
 	#function__init__ will initialize target variable automatically
 	#as soon as the class is established
-	#then you directly use v=class(arg) instead of v=class();v.attribute=sth
+	#then you directly use v=class(arg) instead of v=class() + v.attribute=sth
 	#the speed in brackets mean the arguement awaiting input
 	def __init__(self,speed):
 		#the 1st speed mean call the input speed of the examp
