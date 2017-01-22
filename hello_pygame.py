@@ -40,7 +40,7 @@ class Enemy:
 
     def __init__(self):
         self.restart()
-        self.image = pygame.image.load('red.png').convert_alpha()
+        self.image = pygame.image.load(random.choice(['red.png','yellow.png','boss.png'])).convert_alpha()
 
     def move(self):
         #if enemy is within window, move down
@@ -73,7 +73,9 @@ index_b = 0
 interval_b = 0
 
 #creat enemy camp
-enemy = Enemy()
+enemies = []
+for i in range(3):
+    enemies.append(Enemy())
 
 #the main loop of game
 while True:
@@ -100,9 +102,10 @@ while True:
             b.move()
             #draw bullet before aircraft then the bullet fly from under it
             screen.blit(b.image, (b.x, b.y))
-
-    enemy.move()
-    screen.blit(enemy.image, (enemy.x, enemy.y))
+            
+    for e in enemies:
+        e.move()
+        screen.blit(e.image, (e.x, e.y))
     #if directly use x,y the aircraft will be at the lower right corner of mouse.Why?...
     x, y = pygame.mouse.get_pos()
     #to make mouse at the center of aircraft,move aircraft more
