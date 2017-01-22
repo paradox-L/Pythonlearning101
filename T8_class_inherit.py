@@ -13,6 +13,8 @@ class Vehicle:
 	def drive(self,distance):
 		#I suppose self.blabla means call sth?
 		#so in the function where distance belong use self.speed
+		#I GOT it! self.blabla means call self's attribute
+		#apparently speed is self's attribue while distance is just a type-in arg
 		print'Need %fhour(s)'%(distance/self.speed)
 
 #Vehicle in brackets mean Bicycle is sonclass of Vehicle
@@ -24,6 +26,7 @@ class Car(Vehicle):
 	def __init__(self,speed,fuel):
 		Vehicle.__init__(self,speed)
 		#save arg into a variable need call,while merely calculate don't?(distance?)
+		#Nope!use self.fule cuz fuel is an attribute of self
 		self.fuel=fuel
 
 	def drive(self,distance):
