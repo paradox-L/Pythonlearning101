@@ -91,6 +91,8 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.time.delay(7000)
     #draw background on canvas
     screen.blit(background, (0,0))
 
