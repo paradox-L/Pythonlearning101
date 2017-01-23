@@ -80,17 +80,21 @@ def checkhit(bullet,enemy):
         return False
 
 def checkcrash(aircraft,enemy):
-    #I draw a pic to analysis their relative position,try my best to make visual effect reasonble,yet still little strange?:(
-    if (aircraft.x + 0.6*aircraft.image.get_width() > enemy.x) and (aircraft.x + 0.8*aircraft.image.get_width() < enemy.x + enemy.image.get_width()) and (aircraft.y + 0.6*aircraft.image.get_height() > enemy.y) and (aircraft.y + 0.8*aircraft.image.get_height() < enemy.y +enemy.image.get_height()):
+    #I draw a pic to analysis their relative position to make visual effect reasonble,yet still little strange:(
+    if (aircraft.x + 0.1*aircraft.image.get_width() > enemy.x) and (aircraft.x + 0.9*aircraft.image.get_width() < enemy.x + enemy.image.get_width()) and (aircraft.y + 0.1*aircraft.image.get_height() > enemy.y) and (aircraft.y + 0.9*aircraft.image.get_height() < enemy.y +enemy.image.get_height()):
         return True
     else:
         return False
 
 pygame.init()
 
+print"Game starts"
+track = pygame.mixer.music.load('Flower Dance.mp3')
+pygame.mixer.music.play()
+
 #open game window
 screen = pygame.display.set_mode((820, 461), 0, 32)
-pygame.display.set_caption("Stardust            --Click to Pause for 7s  -- if GAMEOVER Click to Revive")
+pygame.display.set_caption("Stardust            --Click to Pause for 7s  -- if GAMEOVER Click to Revive  --ONE click each time!!")
 #pull in images
 background = pygame.image.load('back.jpg').convert()
 aircraft = pygame.image.load('ufo.png').convert_alpha()
@@ -112,7 +116,7 @@ interval_b = 0
 
 #creat enemy camp
 enemies = []
-for i in range(3):
+for i in range(5):
     enemies.append(Enemy())
 
 #creat goal board
@@ -162,7 +166,7 @@ while True:
                 #check each bullet whether it hit an enemy
                 for e in enemies:
                     if checkhit(b,e):
-                        score += 100
+                        score += 10
                 b.move()
                 #draw bullet before aircraft then the bullet fly from under it
                 screen.blit(b.image, (b.x, b.y))
