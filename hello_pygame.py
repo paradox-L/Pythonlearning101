@@ -75,11 +75,13 @@ def checkhit(bullet,enemy):
     if (bullet.x > enemy.x and bullet.x < enemy.x + enemy.image.get_width()) and (bullet.y > enemy.y and bullet.y < enemy.y + enemy.image.get_height()):
         enemy.restart()
         bullet.active = False
+        return True
     else:
-        pass
+        return False
 
 def checkcrash(aircraft,enemy):
-    if (aircraft.x + 0.5*aircraft.image.get_width() > enemy.x) and (aircraft.x + 0.5*aircraft.image.get_width() < enemy.x + enemy.image.get_width()) and (aircraft.y + 0.5*aircraft.image.get_height() > enemy.y) and (aircraft.y + 0.5*aircraft.image.get_height() < enemy.y +enemy.image.get_height()):
+    #I draw a pic to analysis their relative position,try my best to make visual effect reasonble,yet still little strange?:(
+    if (aircraft.x + 0.6*aircraft.image.get_width() > enemy.x) and (aircraft.x + 0.8*aircraft.image.get_width() < enemy.x + enemy.image.get_width()) and (aircraft.y + 0.6*aircraft.image.get_height() > enemy.y) and (aircraft.y + 0.8*aircraft.image.get_height() < enemy.y +enemy.image.get_height()):
         return True
     else:
         return False
@@ -88,7 +90,7 @@ pygame.init()
 
 #open game window
 screen = pygame.display.set_mode((820, 461), 0, 32)
-pygame.display.set_caption("Stardust")
+pygame.display.set_caption("Stardust            --Click to Pause for 7s  -- if GAMEOVER Click to Revive")
 #pull in images
 background = pygame.image.load('back.jpg').convert()
 aircraft = pygame.image.load('ufo.png').convert_alpha()
@@ -113,6 +115,10 @@ enemies = []
 for i in range(3):
     enemies.append(Enemy())
 
+#creat goal board
+score = 0
+font = pygame.font.Font(None,48)
+
 gameover = False
 
 #the main loop of game
@@ -122,6 +128,18 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
+        if gameover == True and event.type == pygame.MOUSEBUTTONDOWN:
+            #restart game
+            aircraft.restart()
+            for b in bullets:
+                b.active = False
+            for e in enemies:
+                e.restart()
+            score = 0
+            gameover = False
+
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             pygame.time.delay(7000)
     #draw background on canvas
@@ -143,7 +161,8 @@ while True:
             if b.active == True:
                 #check each bullet whether it hit an enemy
                 for e in enemies:
-                    checkhit(b,e)
+                    if checkhit(b,e):
+                        score += 100
                 b.move()
                 #draw bullet before aircraft then the bullet fly from under it
                 screen.blit(b.image, (b.x, b.y))
@@ -156,7 +175,14 @@ while True:
 
         aircraft.move()
         screen.blit(aircraft.image, (aircraft.x,aircraft.y))
-        pygame.display.update()
+
+        #draw text on a new Surface
+        #Grammar: render(text, antialias, color, background=None) -> Surface
+        text = font.render("Your score:%d"%score, 1, (46,169,223))
+        screen.blit(text, (0,0))
 
     else:
-        pass
+        text = font.render("Your score:%d"%score, 1, (46,169,223))
+        screen.blit(text, (410,230))
+
+    pygame.display.update()
