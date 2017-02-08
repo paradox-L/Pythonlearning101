@@ -1,0 +1,25 @@
+$def with (items,count)
+<h1>
+    <center>Awesome Everyday:)</center>
+</h1>
+<form action = "/" method = "post">
+	<input type="text" name="keyword" />
+	<input type="submit" value="Search Item" />
+</form>
+
+<h3>Your todo lists:</h3>
+$if count > 0:
+    $for item in items:
+        <div style = "color:#0000CD ">
+    	    <li><b>Class:$item['rank']</b></li>
+        </div>
+        <li>
+            <a href="item/$item['id']">$item['content']</a>--------------->>>$item['status']
+            <br />
+        </li>
+$else:
+    <p>No relevant todo items</p>
+    <p><a href="/">Return to IndexPage</a></p>
+
+<hr />
+<p>Salution to Aaron Swartz and all programmers...Thanks for creating such beautiful world by code!</p>
