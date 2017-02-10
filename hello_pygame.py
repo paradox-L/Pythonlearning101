@@ -3,6 +3,30 @@ from sys import exit
 import time
 import random
 
+name = raw_input("What's your nickname?")
+
+try:
+    f = open('scoresys.txt')
+    lines = f.readlines()
+    f.close()
+except:
+    print"Make sure there's scoresys.txt with 1st line'0 0' under dir"
+
+docs = {}
+for line in lines:
+    data = line.split()
+    docs[data[0]] = data[1:]
+
+player = docs.get(name)
+if player == None:
+    player = [0,0]
+
+rounds = int(player[0])
+maxscore = int(player[1])
+print"Hello,%s.You have played %dround(s),your highest score is %d"%(name, rounds, maxscore)
+
+sumround = 0
+
 class Aircraft:
     def restart(self):
         self.x = 1000
@@ -125,32 +149,40 @@ font = pygame.font.Font(None,48)
 
 gameover = False
 
+#mean the game is running,else game is paused
+status = 1
+
 #the main loop of game
 while True:
-    #respond to event that user trigger 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
+    #respond to event that user trigger
+    if status == 1: 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
 
-        if gameover == True and event.type == pygame.MOUSEBUTTONDOWN:
-            #restart game
-            aircraft.restart()
-            for b in bullets:
-                b.active = False
-            for e in enemies:
-                e.restart()
-            score = 0
-            gameover = False
+            if gameover == True and event.type == pygame.MOUSEBUTTONDOWN:
+                #restart game
+                aircraft.restart()
+                for b in bullets:
+                    b.active = False
+                for e in enemies:
+                    e.restart()
+                score = 0
+                gameover = False
+                status = 0
 
+            if gameover == False and event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.time.delay(7000)
+                status = 0
+    else:
+        print"Easy!Easy!Be paitient to wait!:)"
+        status = 1
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pygame.time.delay(7000)
-    #draw background on canvas
-    screen.blit(background, (0,0))
+        #draw background on canvas
+        screen.blit(background, (0,0))
 
     if gameover == False:
-
         #like countdown:3,2,1,shoot!
         interval_b -= 1
         if interval_b < 0:
@@ -188,5 +220,19 @@ while True:
     else:
         text = font.render("Your score:%d"%score, 1, (46,169,223))
         screen.blit(text, (410,230))
+        if score > maxscore:
+            maxscore = score
+        sumround += 1
 
     pygame.display.update()
+
+    docs[name] = [str(sumround),str(maxscore)]
+    result = ''
+    for nickname in docs:
+        putin = nickname + ' ' + ' '.join(docs[nickname]) + '\n'
+
+    result += putin
+
+    f = open('scoresys.txt','w')
+    f.write(result)
+    f.close()

@@ -1,0 +1,16 @@
+$def with (item)
+<h1>
+    <center>Less is more:)</center>
+</h1>
+<h4><a href="/">Return to Index</a></h4>
+<br />
+<li>
+    <h1>$item.content</h1>
+</li>
+<br />
+<h3>You created it on $item.itemdate</h3>
+<br />
+<br />
+<form action = "/delete/(\d+)" method = "post">
+	<input type="submit" value="Vertify Deletion" />
+</form>

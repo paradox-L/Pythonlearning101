@@ -6,20 +6,23 @@ $def with (items,count)
 	<input type="text" name="keyword" />
 	<input type="submit" value="Search Item" />
 </form>
-
-<h3>Your todo lists:</h3>
+<p>
+    To add new item,click <a href="item/new">here</a>
+</p>
+<p>
+    <a href="/"><font color="green">Reload IndexPage</font></a>
+</p>
+<h3>Your todo list:</h3>
 $if count > 0:
     $for item in items:
-        <div style = "color:#0000CD ">
-    	    <li><b>Class:$item['rank']</b></li>
-        </div>
         <li>
-            <a href="item/$item['id']">$item['content']</a>--------------->>>$item['status']
+            NO.$item['id'] <a href="delete/$item['id']"><font color="red">Delete</font></a>  $item['content']--------------->>><font face="verdana" color="blue">Created on $item['itemdate']</font>
+            <br />
             <br />
         </li>
 $else:
-    <p>No relevant todo items</p>
+    <p><b>No relevant todo items</b></p>
     <p><a href="/">Return to IndexPage</a></p>
 
 <hr />
-<p>Salution to Aaron Swartz and all programmers...Thanks for creating such beautiful world by code!</p>
+<p>Salution to Aaron Swartz and all programmers...Thanks for creating such beautiful code world!</p>

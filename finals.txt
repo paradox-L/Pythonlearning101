@@ -1,0 +1,4 @@
+JACK	:0
+MIKE	:215
+BEN	:375
+ANN	:100

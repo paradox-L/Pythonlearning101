@@ -42,3 +42,9 @@ c = Car(80.0,0.012)
 #call the function
 b.drive(100.0)
 c.drive(100.0)
+
+
+print"#"*10
+
+print dir(Vehicle)
+print dir(c)

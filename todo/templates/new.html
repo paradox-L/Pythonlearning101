@@ -1,0 +1,8 @@
+$def with (form)
+<h1>
+    <center>Add items</center>
+</h1>
+<p>Write down new item here.</p>
+<form action = "/item/new" method = "post">
+	$:form.render()
+</form>
