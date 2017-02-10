@@ -11,6 +11,6 @@ $def with (item)
 <h3>You created it on $item.itemdate</h3>
 <br />
 <br />
-<form action = "/delete/(\d+)" method = "post">
+<form action = "/delete/$item['id']" method = "post">
 	<input type="submit" value="Vertify Deletion" />
 </form>
